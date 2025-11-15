@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>AI创业模拟 - CEO决策挑战</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6', // 商务蓝色
+                        secondary: '#8b5cf6', // 策略紫色
+                        success: '#10b981', // 成功绿色
+                        warning: '#f59e0b', // 财富金色
+                        danger: '#ef4444', // 风险红色
+                        neutral: '#0f172a', // 深色背景
+                        'neutral-light': '#1e293b', // 卡片背景
+                        'business-green': '#059669', // 商务绿色
+                        'business-amber': '#d97706', // 商务琥珀色
+                        'business-blue': '#2563eb', // 商务蓝色
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        business: ['Montserrat', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'business-pattern': "url('data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E')",
+                    },
+                }
+            } ,catch (error) {
+                console.error('创建图表时出错:', error);
+            }
+        }
+        
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .glass-effect {
+                backdrop-filter: blur(12px);
+                background-color: rgba(30, 41, 59, 0.8);
+            }
+            .card-shadow {
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+            }
+            .card-hover {
+                transition: all 0.3s ease;
+            }
+            .card-hover:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+            }
+            .animate-fade-in {
+                animation: fadeIn 0.5s ease-in;
+            }
+            .animate-slide-up {
+                animation: slideUp 0.5s ease-out;
+            }
+            .animate-pulse-slow {
+                animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            }
+            .animate-shimmer {
+                background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0) 100%);
+                background-size: 200% 100%;
+                animation: shimmer 2s infinite;
+            }
+            .progress-bar {
+                transition: width 0.5s ease-in-out;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            }
+            .border-gradient {
+                position: relative;
+                border-radius: 0.5rem;
+            }
+            .border-gradient::after {
+                content: "";
+                position: absolute;
+                top: -2px;
+                left: -2px;
+                right: -2px;
+                bottom: -2px;
+                background: linear-gradient(45deg, #3b82f6, #8b5cf6, #ec4899, #3b82f6);
+                background-size: 400%;
+                border-radius: 0.6rem;
+                z-index: -1;
+                animation: borderAnimation 8s linear infinite;
+            }
+            .city-skyline-bg {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 200px;
+                background: linear-gradient(to bottom, transparent, rgba(15, 23, 42, 0.95)),
+                            url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 200" fill="none"%3E%3Cpath d="M0,100 L50,120 L100,80 L150,130 L200,90 L250,110 L300,70 L350,140 L400,100 L450,120 L500,80 L550,130 L600,90 L650,110 L700,70 L750,140 L800,100 L850,120 L900,80 L950,130 L1000,90 L1050,110 L1100,70 L1150,140 L1200,100 L1250,120 L1300,80 L1350,130 L1400,90 L1440,100 V200 H0 V100 Z" fill="%231e293b" opacity="0.5"/%3E%3C/svg%3E');
+                background-size: cover;
+                background-repeat: no-repeat;
+                z-index: -1;
+                opacity: 0.8;
+            }
+            .rising-chart-decoration {
+                position: absolute;
+                opacity: 0.15;
+                pointer-events: none;
+                z-index: 0;
+            }
+            .arrow-up {
+                display: inline-block;
+                transform: rotate(45deg);
+                width: 0;
+                height: 0;
+                border-style: solid;
+                border-width: 0 8px 8px 0;
+                border-color: transparent currentColor transparent transparent;
+                margin-right: 4px;
+            }
+            .chart-point {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                display: inline-block;
+                margin-right: 5px;
+                box-shadow: 0 0 10px currentColor;
+            }
+            .glow-effect {
+                box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+            }
+            .water-reflection {
+                position: absolute;
+                bottom: -200px;
+                left: 0;
+                right: 0;
+                height: 200px;
+                background: linear-gradient(to top, rgba(15, 23, 42, 0.7), transparent);
+                transform: scaleY(-1);
+                opacity: 0.2;
+                pointer-events: none;
+                z-index: -1;
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+        
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+        
+        @keyframes borderAnimation {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 400% 0;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-900 to-slate-800 min-h-screen font-sans text-gray-100 overflow-x-hidden">
+    <!-- 城市天际线背景 -->
+    <div class="city-skyline-bg"></div>
+    <div class="water-reflection"></div>
+    
+    <!-- 上升趋势图表装饰 -->
+    <div class="rising-chart-decoration" style="top: 10%; left: 5%; width: 200px; height: 120px;">
+        <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+            <polyline points="10,110 30,90 50,80 70,70 90,60 110,40 130,30 150,20 170,10 190,5" 
+                      stroke="#3b82f6" stroke-width="2" fill="none" stroke-dasharray="5,3"/>
+            <circle cx="10" cy="110" r="3" fill="#3b82f6"/>
+            <circle cx="30" cy="90" r="3" fill="#3b82f6"/>
+            <circle cx="50" cy="80" r="3" fill="#3b82f6"/>
+            <circle cx="70" cy="70" r="3" fill="#3b82f6"/>
+            <circle cx="90" cy="60" r="3" fill="#3b82f6"/>
+            <circle cx="110" cy="40" r="3" fill="#3b82f6"/>
+            <circle cx="130" cy="30" r="3" fill="#3b82f6"/>
+            <circle cx="150" cy="20" r="3" fill="#3b82f6"/>
+            <circle cx="170" cy="10" r="3" fill="#3b82f6"/>
+            <circle cx="190" cy="5" r="3" fill="#3b82f6"/>
+        </svg>
+    </div>
+    <div class="rising-chart-decoration" style="top: 30%; right: 5%; width: 150px; height: 100px; transform: rotate(10deg);">
+        <svg viewBox="0 0 150 100" xmlns="http://www.w3.org/2000/svg">
+            <polyline points="10,90 25,75 40,60 55,45 70,30 85,20 100,10 115,5 130,0" 
+                      stroke="#8b5cf6" stroke-width="2" fill="none" stroke-dasharray="5,3"/>
+            <circle cx="10" cy="90" r="3" fill="#8b5cf6"/>
+            <circle cx="25" cy="75" r="3" fill="#8b5cf6"/>
+            <circle cx="40" cy="60" r="3" fill="#8b5cf6"/>
+            <circle cx="55" cy="45" r="3" fill="#8b5cf6"/>
+            <circle cx="70" cy="30" r="3" fill="#8b5cf6"/>
+            <circle cx="85" cy="20" r="3" fill="#8b5cf6"/>
+            <circle cx="100" cy="10" r="3" fill="#8b5cf6"/>
+            <circle cx="115" cy="5" r="3" fill="#8b5cf6"/>
+            <circle cx="130" cy="0" r="3" fill="#8b5cf6"/>
+        </svg>
+    </div>
+    <div class="container mx-auto px-4 py-8 max-w-5xl">
+        <!-- 游戏标题 -->
+        <header class="text-center mb-8 animate-fade-in relative">
+            <div class="absolute -top-2 -right-2 w-16 h-16 bg-warning/20 rounded-full blur-xl"></div>
+            <div class="absolute top-10 -left-4 w-12 h-12 bg-primary/20 rounded-full blur-lg"></div>
+            
+            <div class="inline-block mb-2 px-4 py-1 bg-gradient-to-r from-primary to-secondary rounded-full text-sm font-medium">
+                CEO决策挑战 | 商业战略模拟
+            </div>
+            <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold text-white mb-2 text-shadow relative z-10">
+                <i class="fa fa-line-chart text-warning mr-2 animate-pulse-slow"></i>
+                梭哈吧！CEO
+            </h1>
+            <p class="text-lg text-gray-300 max-w-3xl mx-auto font-light relative z-10">
+                在这个高风险高回报的商业世界，每一个决策都可能改变公司命运。
+                你能否在市场厮杀中脱颖而出，建立自己的商业帝国？
+            </p>
+        </header>
+        
+        <!-- 游戏状态面板 -->
+        <div id="game-status" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 animate-slide-up">
+            <!-- 资金状态 -->
+            <div class="bg-neutral-light rounded-xl p-5 card-shadow card-hover border-l-4 border-warning relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-warning opacity-10 rounded-full transform translate-x-12 -translate-y-12"></div>
+                <!-- 上升趋势图表装饰 -->
+                <div class="absolute bottom-5 right-5 opacity-10">
+                    <svg width="60" height="40" viewBox="0 0 60 40">
+                        <polyline points="5,35 15,30 25,25 35,20 45,15 55,10" 
+                                  stroke="#f59e0b" stroke-width="2" fill="none"/>
+                        <circle cx="5" cy="35" r="2" fill="#f59e0b"/>
+                        <circle cx="15" cy="30" r="2" fill="#f59e0b"/>
+                        <circle cx="25" cy="25" r="2" fill="#f59e0b"/>
+                        <circle cx="35" cy="20" r="2" fill="#f59e0b"/>
+                        <circle cx="45" cy="15" r="2" fill="#f59e0b"/>
+                        <circle cx="55" cy="10" r="2" fill="#f59e0b"/>
+                    </svg>
+                </div>
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-bold text-lg flex items-center text-white">
+                        <i class="fa fa-money text-warning mr-2"></i> 资金储备
+                    </h3>
+                    <span id="money-value" class="text-xl font-bold text-warning">500/1000</span>
+                </div>
+                <div class="w-full bg-gray-700 rounded-full h-4 overflow-hidden">
+                    <div id="money-bar" class="progress-bar bg-warning h-4 rounded-full animate-shimmer" style="width: 50%"></div>
+                </div>
+                <div class="text-xs text-gray-400 mt-1">
+                    决定公司运营与扩张的基础
+                </div>
+            </div>
+            <!-- 士气状态 -->
+            <div class="bg-neutral-light rounded-xl p-5 card-shadow card-hover border-l-4 border-success relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-success opacity-10 rounded-full transform translate-x-12 -translate-y-12"></div>
+                <!-- 上升趋势图表装饰 -->
+                <div class="absolute bottom-5 right-5 opacity-10">
+                    <svg width="60" height="40" viewBox="0 0 60 40">
+                        <polyline points="5,35 15,32 25,28 35,22 45,15 55,8" 
+                                  stroke="#10b981" stroke-width="2" fill="none"/>
+                        <circle cx="5" cy="35" r="2" fill="#10b981"/>
+                        <circle cx="15" cy="32" r="2" fill="#10b981"/>
+                        <circle cx="25" cy="28" r="2" fill="#10b981"/>
+                        <circle cx="35" cy="22" r="2" fill="#10b981"/>
+                        <circle cx="45" cy="15" r="2" fill="#10b981"/>
+                        <circle cx="55" cy="8" r="2" fill="#10b981"/>
+                    </svg>
+                </div>
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-bold text-lg flex items-center text-white">
+                        <i class="fa fa-users text-success mr-2"></i> 团队士气
+                    </h3>
+                    <span id="morale-value" class="text-xl font-bold text-success">60/1000</span>
+                </div>
+                <div class="w-full bg-gray-700 rounded-full h-4 overflow-hidden">
+                    <div id="morale-bar" class="progress-bar bg-success h-4 rounded-full animate-shimmer" style="width: 60%"></div>
+                </div>
+                <div class="text-xs text-gray-400 mt-1">
+                    人才是公司最宝贵的资产
+                </div>
+            </div>
+            <!-- 公司前景 -->
+            <div class="bg-neutral-light rounded-xl p-5 card-shadow card-hover border-l-4 border-primary relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-primary opacity-10 rounded-full transform translate-x-12 -translate-y-12"></div>
+                <!-- 上升趋势图表装饰 -->
+                <div class="absolute bottom-5 right-5 opacity-10">
+                    <svg width="60" height="40" viewBox="0 0 60 40">
+                        <polyline points="5,35 15,38 25,32 35,25 45,18 55,10" 
+                                  stroke="#2563eb" stroke-width="2" fill="none"/>
+                        <circle cx="5" cy="35" r="2" fill="#2563eb"/>
+                        <circle cx="15" cy="38" r="2" fill="#2563eb"/>
+                        <circle cx="25" cy="32" r="2" fill="#2563eb"/>
+                        <circle cx="35" cy="25" r="2" fill="#2563eb"/>
+                        <circle cx="45" cy="18" r="2" fill="#2563eb"/>
+                        <circle cx="55" cy="10" r="2" fill="#2563eb"/>
+                    </svg>
+                </div>
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-bold text-lg flex items-center text-white">
+                        <i class="fa fa-line-chart text-primary mr-2"></i> 公司前景
+                    </h3>
+                    <span id="market-value" class="text-xl font-bold text-primary">40/1000</span>
+                </div>
+                <div class="w-full bg-gray-700 rounded-full h-4 overflow-hidden">
+                    <div id="market-bar" class="progress-bar bg-primary h-4 rounded-full animate-shimmer" style="width: 40%"></div>
+                </div>
+                <div class="text-xs text-gray-400 mt-1">
+                    决定公司未来发展潜力
+                </div>
+            </div>
+        </div>
+        
+        <!-- 剧情进度 -->
+        <div class="bg-neutral-light rounded-xl p-5 mb-8 card-shadow animate-slide-up border-gradient">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="font-bold text-lg flex items-center text-white">
+                    <i class="fa fa-trophy text-secondary mr-2"></i> 商业征程
+                </h3>
+                <span id="story-stage" class="text-xl font-bold text-secondary">初创阶段 (1.0/5)</span>
+            </div>
+            <div class="w-full bg-gray-700 rounded-full h-4 overflow-hidden">
+                <div id="story-bar" class="progress-bar bg-gradient-to-r from-secondary to-primary h-4 rounded-full" style="width: 20%"></div>
+            </div>
+            <div class="flex justify-between text-xs text-gray-400 mt-2">
+                <span>公司成立</span>
+                <span>高速增长</span>
+                <span>市场扩张</span>
+                <span>行业领导者</span>
+                <span>商业帝国</span>
+            </div>
+        </div>
+        
+        <!-- 游戏开始界面 -->
+        <div id="start-screen" class="bg-neutral-light rounded-xl p-10 text-center card-shadow mb-8 animate-fade-in relative overflow-hidden border-gradient">
+            <!-- 背景装饰 -->
+            <div class="absolute inset-0 bg-business-pattern opacity-20"></div>
+            <div class="absolute top-0 right-0 w-64 h-64 bg-primary opacity-5 rounded-full transform translate-x-32 -translate-y-32"></div>
+            <div class="absolute bottom-0 left-0 w-64 h-64 bg-secondary opacity-5 rounded-full transform -translate-x-32 translate-y-32"></div>
+            <!-- 城市天际线装饰 -->
+            <div class="absolute bottom-0 left-0 right-0 h-32 opacity-10">
+                <svg viewBox="0 0 1000 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0,70 L50,50 L100,70 L150,30 L200,60 L250,40 L300,70 L350,20 L400,50 L450,60 L500,30 L550,50 L600,40 L650,60 L700,20 L750,40 L800,60 L850,30 L900,50 L950,40 L1000,60 V100 H0 V70 Z" fill="#3b82f6"/>
+                </svg>
+            </div>
+            
+            <div class="relative">
+                <h2 class="text-3xl font-bold text-white mb-6 text-shadow">商业帝国的崛起</h2>
+                <div class="max-w-2xl mx-auto mb-8">
+                    <p class="text-gray-300 mb-4 leading-relaxed">
+                        <span class="text-primary font-semibold">你是一位雄心勃勃的企业家</span>，刚刚创立了一家科技公司。
+                        在这个<span class="text-warning font-semibold">竞争激烈的市场</span>中，每一个决策都至关重要。
+                    </p>
+                    <p class="text-gray-300 mb-4 leading-relaxed">
+                        你需要在<span class="text-success font-semibold">资源有限</span>的情况下，平衡短期利益与长期发展，
+                        应对来自<span class="text-danger font-semibold">竞争对手、投资者、员工和市场</span>的多重压力。
+                    </p>
+                    <p class="text-gray-300 leading-relaxed">
+                        你的目标是将这家<span class="text-secondary font-semibold">初创公司</span>发展成为<span class="text-primary font-semibold">行业巨头</span>，
+                        最终实现<span class="text-warning font-semibold">成功上市或被高价收购</span>的商业传奇！
+                    </p>
+                </div>
+                <button id="start-game-btn" class="bg-gradient-to-r from-primary to-secondary text-white font-bold py-4 px-10 rounded-lg transition-all transform hover:scale-105 focus:outline-none shadow-lg hover:shadow-primary/20 border-gradient relative overflow-hidden group">
+                    <span class="relative z-10 flex items-center">
+                        <i class="fa fa-rocket mr-2"></i> 开启商业征程
+                    </span>
+                    <!-- 上升箭头装饰 -->
+                    <div class="absolute -right-10 -bottom-10 opacity-20 group-hover:opacity-40 transition-opacity duration-300">
+                        <svg width="80" height="80" viewBox="0 0 100 100">
+                            <path d="M50,10 L80,60 L50,50 L20,60 Z" fill="white"/>
+                            <polyline points="50,10 50,90" stroke="white" stroke-width="4" fill="none"/>
+                        </svg>
+                    </div>
+                </button>
+                <p class="text-gray-400 text-sm mt-4">
+                    <i class="fa fa-info-circle mr-1"></i> 每次决策都将影响公司命运
+                </p>
+            </div>
+        </div>
+        
+        <!-- 董事会会议界面 -->
+        <div id="meeting-screen" class="hidden bg-neutral-light rounded-xl p-8 card-shadow mb-8 animate-fade-in relative overflow-hidden">
+            <!-- 背景装饰 -->
+            <div class="absolute inset-0 bg-business-pattern opacity-10"></div>
+            
+            <div class="relative">
+                <div class="mb-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 id="meeting-title" class="text-2xl font-bold text-white">【第1次董事会会议】</h2>
+                        <div class="bg-gray-700 text-gray-300 px-3 py-1 rounded-full text-sm">
+                            <i class="fa fa-clock-o mr-1"></i>
+                            <span id="meeting-time">关键决策时刻</span>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6 bg-gray-800/50 rounded-xl border-l-4 border-primary mb-6 relative">
+                        <div class="absolute top-3 right-3 text-primary opacity-30">
+                            <i class="fa fa-commenting text-3xl"></i>
+                        </div>
+                        <p id="meeting-description" class="text-gray-200 leading-relaxed italic relative z-10">
+                            <!-- 董事会描述将在这里显示 -->
+                        </p>
+                    </div>
+                    
+                    <div class="bg-danger/10 border border-danger/20 rounded-lg p-4 mb-8">
+                        <h3 class="font-bold text-xl text-danger mb-2 flex items-center">
+                            <i class="fa fa-exclamation-triangle mr-2"></i> 战略抉择时刻
+                        </h3>
+                        <p id="meeting-dilemma" class="text-gray-300">
+                            <!-- 困境描述将在这里显示 -->
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-4">
+                    <!-- 选项A -->
+                    <div class="bg-gray-800 rounded-xl p-6 transition-all cursor-pointer transform hover:scale-[1.02] hover:shadow-lg border-2 border-transparent hover:border-primary relative overflow-hidden group" id="option-a">
+                        <div class="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute top-0 left-0 w-full h-1 bg-primary"></div>
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary mr-3">
+                                <span class="font-bold">A</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-white">激进战略</h3>
+                        </div>
+                        <p class="text-gray-300 leading-relaxed relative z-10" id="option-a-text">
+                            <!-- 选项A描述将在这里显示 -->
+                        </p>
+                        <div class="mt-4 text-xs text-gray-400">
+                            <i class="fa fa-lightbulb-o mr-1"></i> 高风险高回报策略
+                        </div>
+                    </div>
+                    
+                    <!-- 选项B -->
+                    <div class="bg-gray-800 rounded-xl p-6 transition-all cursor-pointer transform hover:scale-[1.02] hover:shadow-lg border-2 border-transparent hover:border-secondary relative overflow-hidden group" id="option-b">
+                        <div class="absolute inset-0 bg-gradient-to-r from-secondary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute top-0 left-0 w-full h-1 bg-secondary"></div>
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 rounded-full bg-secondary/20 flex items-center justify-center text-secondary mr-3">
+                                <span class="font-bold">B</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-white">稳健战略</h3>
+                        </div>
+                        <p class="text-gray-300 leading-relaxed relative z-10" id="option-b-text">
+                            <!-- 选项B描述将在这里显示 -->
+                        </p>
+                        <div class="mt-4 text-xs text-gray-400">
+                            <i class="fa fa-shield mr-1"></i> 低风险可持续发展策略
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center text-gray-500 text-sm">
+                    <i class="fa fa-balance-scale mr-1"></i> 权衡利弊，做出明智决策
+                </div>
+            </div>
+        </div>
+        
+        <!-- 决策反馈界面 -->
+        <div id="feedback-screen" class="hidden bg-neutral-light rounded-xl p-8 card-shadow mb-8 animate-fade-in relative overflow-hidden">
+            <!-- 背景装饰 -->
+            <div class="absolute inset-0 bg-business-pattern opacity-10"></div>
+            <div class="absolute top-0 right-0 w-64 h-64 bg-primary opacity-5 rounded-full transform translate-x-32 -translate-y-32"></div>
+            
+            <div class="relative">
+                <h2 class="text-2xl font-bold text-white mb-6 flex items-center">
+                    <i class="fa fa-line-chart text-secondary mr-3"></i> 【董事会决议反馈】
+                </h2>
+                <div id="feedback-text" class="text-gray-200 bg-gray-800/70 p-5 rounded-xl border-l-4 border-secondary mb-8 text-lg leading-relaxed">
+                    <!-- 反馈文本将在这里显示 -->
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-gray-800 rounded-xl p-5 card-shadow card-hover border-l-4 border-warning relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-16 h-16 bg-warning opacity-10 rounded-full transform translate-x-8 -translate-y-8"></div>
+                        <h4 class="text-sm font-medium text-gray-400 mb-2">资金变化</h4>
+                        <p id="money-change" class="text-2xl font-bold text-warning">
+                            <!-- 资金变化将在这里显示 -->
+                        </p>
+                    </div>
+                    <div class="bg-gray-800 rounded-xl p-5 card-shadow card-hover border-l-4 border-success relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-16 h-16 bg-success opacity-10 rounded-full transform translate-x-8 -translate-y-8"></div>
+                        <h4 class="text-sm font-medium text-gray-400 mb-2">士气变化</h4>
+                        <p id="morale-change" class="text-2xl font-bold text-success">
+                            <!-- 士气变化将在这里显示 -->
+                        </p>
+                    </div>
+                    <div class="bg-gray-800 rounded-xl p-5 card-shadow card-hover border-l-4 border-primary relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-16 h-16 bg-primary opacity-10 rounded-full transform translate-x-8 -translate-y-8"></div>
+                        <h4 class="text-sm font-medium text-gray-400 mb-2">公司前景变化</h4>
+                        <p id="market-change" class="text-2xl font-bold text-primary">
+                            <!-- 公司前景变化将在这里显示 -->
+                        </p>
+                    </div>
+                </div>
+                
+                <button id="continue-btn" class="bg-gradient-to-r from-primary to-secondary text-white font-bold py-3 px-8 rounded-lg transition-all transform hover:scale-105 focus:outline-none shadow-lg hover:shadow-primary/20 border-gradient">
+                    <i class="fa fa-arrow-right mr-2"></i> 继续商业征程
+                </button>
+            </div>
+        </div>
+        
+        <!-- 游戏结局界面 -->
+        <div id="ending-screen" class="hidden max-w-4xl mx-auto">
+            <div class="bg-neutral-light rounded-xl p-8 card-shadow mb-6 relative overflow-hidden">
+                <!-- 背景装饰 -->
+                <div class="absolute inset-0 bg-business-pattern opacity-10"></div>
+                <div class="absolute top-0 right-0 w-64 h-64 bg-primary opacity-5 rounded-full transform translate-x-32 -translate-y-32"></div>
+                <div class="absolute bottom-0 left-0 w-64 h-64 bg-secondary opacity-5 rounded-full transform -translate-x-32 translate-y-32"></div>
+                
+                <div class="relative">
+                    <h2 id="ending-title" class="text-3xl font-bold mb-6 text-white"></h2>
+                    <p id="ending-text" class="text-xl text-gray-300 mb-8 leading-relaxed"></p>
+                    
+                    <!-- 标签页切换 -->
+                    <div class="flex mb-8">
+                        <button id="report-card-tab" class="bg-gradient-to-r from-primary to-secondary text-white py-3 px-6 font-medium rounded-lg shadow-md hover:shadow-lg transition-all transform hover:scale-[1.02] flex items-center">
+                            <i class="fa fa-chart-bar mr-2"></i> 成绩单
+                        </button>
+                        <button id="history-tab" class="bg-gray-800 text-gray-300 py-3 px-6 font-medium rounded-lg shadow-md hover:shadow-lg transition-all transform hover:scale-[1.02] ml-4 flex items-center">
+                            <i class="fa fa-history mr-2"></i> 历史记录
+                        </button>
+                    </div>
+                    
+                    <!-- 成绩单内容 -->
+                    <div id="report-card-content" class="mb-8">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                            <div class="bg-gray-800 rounded-xl p-6 card-shadow card-hover text-center relative overflow-hidden border-l-4 border-primary">
+                                <div class="absolute top-0 right-0 w-16 h-16 bg-primary opacity-10 rounded-full transform translate-x-8 -translate-y-8"></div>
+                                <p class="text-gray-400 mb-3">决策次数</p>
+                                <h3 id="total-decisions" class="text-4xl font-bold text-primary">0</h3>
+                            </div>
+                            <div class="bg-gray-800 rounded-xl p-6 card-shadow card-hover text-center relative overflow-hidden border-l-4 border-secondary">
+                                <div class="absolute top-0 right-0 w-16 h-16 bg-secondary opacity-10 rounded-full transform translate-x-8 -translate-y-8"></div>
+                                <p class="text-gray-400 mb-3">最终得分</p>
+                                <h3 id="final-score" class="text-4xl font-bold text-secondary">0</h3>
+                            </div>
+                            <div class="bg-gray-800 rounded-xl p-6 card-shadow card-hover text-center relative overflow-hidden border-l-4 border-warning">
+                                <div class="absolute top-0 right-0 w-16 h-16 bg-warning opacity-10 rounded-full transform translate-x-8 -translate-y-8"></div>
+                                <p class="text-gray-400 mb-3">等级评定</p>
+                                <h3 id="final-grade" class="text-5xl font-bold text-warning">S</h3>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                            <div class="bg-gray-800 rounded-xl p-5 card-shadow card-hover relative overflow-hidden border-l-4 border-warning">
+                                <div class="absolute top-0 right-0 w-16 h-16 bg-warning opacity-10 rounded-full transform translate-x-8 -translate-y-8"></div>
+                                <p class="text-gray-400 mb-2">资金状况</p>
+                                <h4 id="money-score" class="text-3xl font-bold text-warning">0/1000</h4>
+                            </div>
+                            <div class="bg-gray-800 rounded-xl p-5 card-shadow card-hover relative overflow-hidden border-l-4 border-success">
+                                <div class="absolute top-0 right-0 w-16 h-16 bg-success opacity-10 rounded-full transform translate-x-8 -translate-y-8"></div>
+                                <p class="text-gray-400 mb-2">团队士气</p>
+                                <h4 id="morale-score" class="text-3xl font-bold text-success">0/1000</h4>
+                            </div>
+                            <div class="bg-gray-800 rounded-xl p-5 card-shadow card-hover relative overflow-hidden border-l-4 border-primary">
+                                <div class="absolute top-0 right-0 w-16 h-16 bg-primary opacity-10 rounded-full transform translate-x-8 -translate-y-8"></div>
+                                <p class="text-gray-400 mb-2">公司前景</p>
+                                <h4 id="market-score" class="text-3xl font-bold text-primary">0/1000</h4>
+                            </div>
+                        </div>
+                        <div class="bg-gray-800 rounded-xl p-6 card-shadow">
+                            <h4 class="font-bold text-xl text-white mb-6 flex items-center">
+                                <i class="fa fa-line-chart text-primary mr-3"></i> 公司发展趋势
+                            </h4>
+                            <div class="h-80">
+                                <canvas id="history-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 历史记录内容 -->
+                    <div id="history-content" class="hidden">
+                        <div class="mb-8">
+                            <h4 class="font-bold text-xl text-white mb-6 flex items-center">
+                                <i class="fa fa-sitemap text-secondary mr-3"></i> 公司发展历程时间线
+                            </h4>
+                            <div id="history-timeline" class="space-y-2">
+                                <!-- 历史记录时间线将通过JavaScript动态生成 -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button id="restart-btn" class="bg-gradient-to-r from-primary to-secondary text-white font-bold py-4 px-10 rounded-lg transition-all transform hover:scale-105 focus:outline-none shadow-lg hover:shadow-primary/20 border-gradient flex items-center">
+                        <i class="fa fa-refresh mr-2"></i> 重新开始商业征程
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 游戏状态管理
+        let gameState = {
+            money: 100,
+            morale: 60,
+            market_prospect: 40,
+            story_stage: 1.0,
+            game_over: false,
+            history: []
+        };
+        
+        // 图表实例
+        let historyChart = null;
+        
+        // DOM元素
+        const startScreen = document.getElementById('start-screen');
+        const meetingScreen = document.getElementById('meeting-screen');
+        const feedbackScreen = document.getElementById('feedback-screen');
+        const endingScreen = document.getElementById('ending-screen');
+        const startGameBtn = document.getElementById('start-game-btn');
+        const continueBtn = document.getElementById('continue-btn');
+        const restartBtn = document.getElementById('restart-btn');
+        const optionA = document.getElementById('option-a');
+        const optionB = document.getElementById('option-b');
+        
+        // 更新游戏状态显示
+        function updateGameStatus() {
+            const moneyValue = document.getElementById('money-value');
+            const moraleValue = document.getElementById('morale-value');
+            const marketValue = document.getElementById('market-value');
+            const storyStage = document.getElementById('story-stage');
+            
+            const moneyBar = document.getElementById('money-bar');
+            const moraleBar = document.getElementById('morale-bar');
+            const marketBar = document.getElementById('market-bar');
+            const storyBar = document.getElementById('story-bar');
+            
+            moneyValue.textContent = `${gameState.money}/1000`;
+        moraleValue.textContent = `${gameState.morale}/1000`;
+        marketValue.textContent = `${gameState.market_prospect}/1000`;
+            storyStage.textContent = `${gameState.story_stage.toFixed(1)}/5`;
+            
+            moneyBar.style.width = `${gameState.money}%`;
+            moraleBar.style.width = `${gameState.morale}%`;
+            marketBar.style.width = `${gameState.market_prospect}%`;
+            storyBar.style.width = `${(gameState.story_stage / 5) * 100}%`;
+            
+            // 添加颜色变化效果
+            if (gameState.money < 20) moneyBar.classList.add('bg-danger');
+            else moneyBar.classList.remove('bg-danger');
+            
+            if (gameState.morale < 20) moraleBar.classList.add('bg-danger');
+            else moraleBar.classList.remove('bg-danger');
+            
+            if (gameState.market_prospect < 20) marketBar.classList.add('bg-danger');
+            else marketBar.classList.remove('bg-danger');
+        }
+        
+        // 保存历史记录
+        function saveHistoryState(state) {
+            if (state && state.history) {
+                gameState.history = state.history;
+            }
+        }
+        
+        // 开始游戏
+        startGameBtn.addEventListener('click', async () => {
+            try {
+                const response = await fetch('/api/start_game', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                gameState = data.current_state;
+                saveHistoryState(data.current_state);
+                updateGameStatus();
+                
+                // 显示会议信息
+                document.getElementById('meeting-title').textContent = `【第${data.meeting_count}次会议：董事会】`;
+                document.getElementById('meeting-description').textContent = data.description;
+                document.getElementById('meeting-dilemma').innerHTML = `<span class="font-bold">当前困境：</span>${data.dilemma}`;
+                document.getElementById('option-a-text').textContent = data.optionA;
+                document.getElementById('option-b-text').textContent = data.optionB;
+                
+                // 切换界面
+                startScreen.classList.add('hidden');
+                meetingScreen.classList.remove('hidden');
+                
+            } catch (error) {
+                console.error('开始游戏失败:', error);
+                alert('游戏启动失败，请刷新页面重试');
+            }
+        });
+        
+        // 处理决策选择
+        async function handleDecision(option) {
+            try {
+                const response = await fetch('/api/make_decision', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ option: option })
+                });
+                
+                const data = await response.json();
+                gameState = data.current_state;
+                saveHistoryState(data.current_state);
+                
+                // 更新反馈信息
+                document.getElementById('feedback-text').textContent = data.feedback;
+                
+                // 格式化变化值显示
+                function formatChange(value) {
+                    const sign = value > 0 ? '+' : '';
+                    return `${sign}${value}`;
+                }
+                
+                document.getElementById('money-change').textContent = formatChange(data.money_change);
+                document.getElementById('morale-change').textContent = formatChange(data.morale_change);
+                document.getElementById('market-change').textContent = formatChange(data.market_prospect_change);
+                
+                // 切换界面
+                meetingScreen.classList.add('hidden');
+                feedbackScreen.classList.remove('hidden');
+                
+                // 延迟更新状态条，显示动画效果
+                setTimeout(() => {
+                    updateGameStatus();
+                }, 300);
+                
+                // 检查游戏是否结束
+                if (gameState.game_over) {
+                    // 准备结局界面
+                    continueBtn.addEventListener('click', () => {
+                        showEnding(data.ending_text);
+                    }, { once: true });
+                } else {
+                    // 准备下一次会议
+                    continueBtn.addEventListener('click', () => {
+                        feedbackScreen.classList.add('hidden');
+                        meetingScreen.classList.remove('hidden');
+                        
+                        const nextMeeting = data.next_meeting;
+                        document.getElementById('meeting-title').textContent = `【第${nextMeeting.meeting_count}次会议：董事会】`;
+                        document.getElementById('meeting-description').textContent = nextMeeting.description;
+                        document.getElementById('meeting-dilemma').innerHTML = `<span class="font-bold">当前困境：</span>${nextMeeting.dilemma}`;
+                        document.getElementById('option-a-text').textContent = nextMeeting.optionA;
+                        document.getElementById('option-b-text').textContent = nextMeeting.optionB;
+                    }, { once: true });
+                }
+                
+            } catch (error) {
+                console.error('处理决策失败:', error);
+                alert('处理决策失败，请刷新页面重试');
+            }
+        }
+        
+        // 计算成绩单
+        function calculateReportCard() {
+            if (!gameState.history || gameState.history.length === 0) return null;
+            
+            // 统计数据
+            let totalDecisions = gameState.history.length - 1; // 减去初始状态
+            let avgMoney = gameState.money;
+            let avgMorale = gameState.morale;
+            let avgMarketProspect = gameState.market_prospect;
+            
+            // 计算关键指标分数
+            let finalScore = (avgMoney + avgMorale + avgMarketProspect) / 3;
+            
+            // 根据分数评定等级
+            let grade = '';
+            if (finalScore >= 80) grade = 'S';
+            else if (finalScore >= 70) grade = 'A';
+            else if (finalScore >= 60) grade = 'B';
+            else if (finalScore >= 50) grade = 'C';
+            else if (finalScore >= 40) grade = 'D';
+            else grade = 'F';
+            
+            return {
+                totalDecisions: totalDecisions,
+                finalScore: Math.round(finalScore),
+                grade: grade,
+                moneyScore: avgMoney,
+                moraleScore: avgMorale,
+                marketScore: avgMarketProspect
+            };
+        }
+        
+        // 渲染历史记录图表
+        function renderHistoryChart() {
+            // 确保有历史数据和图表元素
+            if (!gameState.history || gameState.history.length === 0) return;
+            
+            const chartElement = document.getElementById('history-chart');
+            if (!chartElement) return;
+            
+            // 准备数据
+            const labels = gameState.history.map((item, index) => 
+                index === 0 ? '初始' : `决策${index}`
+            );
+            const moneyData = gameState.history.map(item => item.money);
+            const moraleData = gameState.history.map(item => item.morale);
+            const marketData = gameState.history.map(item => item.market_prospect);
+            
+            // 动态计算纵轴最大值，取所有数据中的最大值并向上取整到合适的值
+            const allData = [...moneyData, ...moraleData, ...marketData];
+            const maxValue = Math.max(...allData);
+            // 向上取整，确保有足够的空间显示数据
+            const yMax = Math.ceil(maxValue * 1.1); // 增加10%的缓冲空间
+            
+            // 如果图表已存在，销毁它
+            if (window.historyChart) {
+                window.historyChart.destroy();
+            }
+            
+            // 获取画布上下文
+            const ctx = chartElement.getContext('2d');
+            
+            // 创建简化的图表
+            window.historyChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: '资金',
+                            data: moneyData,
+                            borderColor: '#f59e0b',
+                            backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        },
+                        {
+                            label: '士气',
+                            data: moraleData,
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        },
+                        {
+                            label: '公司前景',
+                            data: marketData,
+                            borderColor: '#2563eb',
+                            backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                color: '#e5e7eb'
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: '公司发展趋势图',
+                            color: '#f3f4f6'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#9ca3af'
+                            }
+                        },
+                        y: {
+                            min: 0,
+                            max: yMax,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#9ca3af'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // 渲染历史记录时间线
+        function renderHistoryTimeline() {
+            if (!gameState.history || gameState.history.length === 0) return;
+            
+            const timelineContainer = document.getElementById('history-timeline');
+            timelineContainer.innerHTML = '';
+            
+            gameState.history.forEach((event, index) => {
+                // 跳过初始状态
+                if (index === 0) {
+                    const initialEvent = document.createElement('div');
+                    initialEvent.className = 'flex mb-8 relative animate-fade-in';
+                    initialEvent.innerHTML = `
+                        <div class="flex flex-col items-center mr-6">
+                            <div class="h-14 w-14 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white z-10 shadow-lg">
+                                <i class="fa fa-building text-xl"></i>
+                            </div>
+                            ${index < gameState.history.length - 1 ? '<div class="h-full w-0.5 bg-gray-700 absolute top-14 bottom-0 left-7"></div>' : ''}
+                        </div>
+                        <div class="bg-gray-800 p-6 rounded-xl shadow-lg flex-1 border-l-4 border-primary card-hover">
+                            <h4 class="font-bold text-primary text-xl mb-3">${event.event}</h4>
+                            <p class="text-gray-300 mb-4">${event.decision || '公司创立初期'}</p>
+                            <div class="grid grid-cols-3 gap-4 text-sm">
+                                <div class="bg-gray-900 rounded-lg p-3 border-l-2 border-warning">
+                                    <div class="text-xs text-gray-400 mb-1">资金储备</div>
+                                    <span class="font-bold text-warning">${event.money}/1000</span>
+                                </div>
+                                <div class="bg-gray-900 rounded-lg p-3 border-l-2 border-success">
+                                    <div class="text-xs text-gray-400 mb-1">团队士气</div>
+                                    <span class="font-bold text-success">${event.morale}/1000</span>
+                                </div>
+                                <div class="bg-gray-900 rounded-lg p-3 border-l-2 border-primary">
+                                    <div class="text-xs text-gray-400 mb-1">公司前景</div>
+                                    <span class="font-bold text-primary">${event.market_prospect}/1000</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    timelineContainer.appendChild(initialEvent);
+                    return;
+                }
+                
+                const timelineItem = document.createElement('div');
+                timelineItem.className = 'flex mb-8 relative animate-fade-in';
+                
+                // 格式化变化值的显示
+                function formatChange(value) {
+                    const sign = value > 0 ? '+' : '';
+                    return `<span class="${value > 0 ? 'text-green-500 font-bold' : value < 0 ? 'text-red-500 font-bold' : 'text-gray-400'}">${sign}${value}</span>`;
+                }
+                
+                timelineItem.innerHTML = `
+                    <div class="flex flex-col items-center mr-6">
+                        <div class="h-14 w-14 rounded-full bg-gradient-to-br from-secondary to-primary flex items-center justify-center text-white z-10 shadow-lg">
+                                <i class="fa fa-line-chart text-xl"></i>
+                            </div>
+                        ${index < gameState.history.length - 1 ? '<div class="h-full w-0.5 bg-gray-700 absolute top-14 bottom-0 left-7"></div>' : ''}
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-xl shadow-lg flex-1 border-l-4 border-secondary card-hover">
+                        <h4 class="font-bold text-secondary text-xl mb-3">第${index}次决策: ${event.event}</h4>
+                        <p class="text-gray-300 mb-3">${event.decision}</p>
+                        <p class="text-gray-400 text-sm mb-4 italic">${event.feedback}</p>
+                        <div class="grid grid-cols-3 gap-4 text-sm">
+                            <div class="bg-gray-900 rounded-lg p-3 border-l-2 border-warning">
+                                <div class="text-xs text-gray-400 mb-1">资金储备</div>
+                                <div class="font-bold text-warning">${event.money}/1000</div>
+                                <div class="text-xs mt-1">${formatChange(event.money_change)}</div>
+                            </div>
+                            <div class="bg-gray-900 rounded-lg p-3 border-l-2 border-success">
+                                <div class="text-xs text-gray-400 mb-1">团队士气</div>
+                                <div class="font-bold text-success">${event.morale}/1000</div>
+                                <div class="text-xs mt-1">${formatChange(event.morale_change)}</div>
+                            </div>
+                            <div class="bg-gray-900 rounded-lg p-3 border-l-2 border-primary">
+                                <div class="text-xs text-gray-400 mb-1">公司前景</div>
+                                <div class="font-bold text-primary">${event.market_prospect}/1000</div>
+                                <div class="text-xs mt-1">${formatChange(event.market_prospect_change)}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                timelineContainer.appendChild(timelineItem);
+            });
+        }
+        
+        // 切换标签页
+        function switchTab(tabName) {
+            // 隐藏所有内容
+            document.getElementById('report-card-content').classList.add('hidden');
+            document.getElementById('history-content').classList.add('hidden');
+            
+            // 重置所有标签样式
+            document.getElementById('report-card-tab').classList.remove('bg-gradient-to-r', 'from-primary', 'to-secondary', 'text-white');
+            document.getElementById('history-tab').classList.remove('bg-gradient-to-r', 'from-primary', 'to-secondary', 'text-white');
+            document.getElementById('report-card-tab').classList.add('bg-gray-800', 'text-gray-300');
+            document.getElementById('history-tab').classList.add('bg-gray-800', 'text-gray-300');
+            
+            // 显示选中的内容和样式
+            document.getElementById(`${tabName}-content`).classList.remove('hidden');
+            document.getElementById(`${tabName}-tab`).classList.remove('bg-gray-800', 'text-gray-300');
+            document.getElementById(`${tabName}-tab`).classList.add('bg-gradient-to-r', 'from-primary', 'to-secondary', 'text-white');
+            
+            // 根据标签类型渲染对应内容
+            if (tabName === 'history') {
+                renderHistoryTimeline();
+            } else if (tabName === 'report-card') {
+                renderHistoryChart();
+            }
+        }
+        
+        // 显示结局
+        function showEnding(endingText) {
+            feedbackScreen.classList.add('hidden');
+            endingScreen.classList.remove('hidden');
+            
+            // 根据结局类型设置标题和样式
+            let endingTitle = '';
+            let titleIcon = '';
+            let titleColorClass = '';
+            
+            if (endingText.includes('胜利') || endingText.includes('成功')) {
+                endingTitle = '恭喜成功！';
+                titleIcon = 'fa-trophy';
+                titleColorClass = 'bg-gradient-to-r from-green-400 to-emerald-500';
+            } else if (endingText.includes('游戏结束')) {
+                endingTitle = '游戏结束';
+                titleIcon = 'fa-exclamation-circle';
+                titleColorClass = 'bg-gradient-to-r from-red-400 to-rose-500';
+            } else {
+                endingTitle = '游戏结局';
+                titleIcon = 'fa-chart-line';
+                titleColorClass = 'bg-gradient-to-r from-primary to-secondary';
+            }
+            
+            // 更新进度条样式 - 移到外部确保全局可访问
+            const updateProgressBar = (elementId, value) => {
+                const bar = document.getElementById(elementId);
+                if (bar) { // 添加null检查
+                    bar.style.width = `${value}%`;
+                }
+            };
+            
+            // 美化标题显示
+            const endingTitleElement = document.getElementById('ending-title');
+            if (endingTitleElement) {
+                endingTitleElement.innerHTML = `
+                    <i class="fa ${titleIcon} mr-3"></i>
+                    <span class="bg-clip-text text-transparent ${titleColorClass}">${endingTitle}</span>
+                `;
+            }
+            
+            const endingTextElement = document.getElementById('ending-text');
+            if (endingTextElement) {
+                endingTextElement.textContent = endingText;
+            }
+            
+            // 计算并显示成绩单
+            const reportCard = calculateReportCard();
+            if (reportCard) {
+                // 更新成绩单数据
+                const totalDecisionsEl = document.getElementById('total-decisions');
+                const finalScoreEl = document.getElementById('final-score');
+                const finalGradeEl = document.getElementById('final-grade');
+                const moneyScoreEl = document.getElementById('money-score');
+                const moraleScoreEl = document.getElementById('morale-score');
+                const marketScoreEl = document.getElementById('market-score');
+                
+                if (totalDecisionsEl) totalDecisionsEl.textContent = reportCard.totalDecisions;
+                if (finalScoreEl) finalScoreEl.textContent = reportCard.finalScore;
+                if (finalGradeEl) {
+                    finalGradeEl.textContent = reportCard.grade;
+                    finalGradeEl.className = 'text-5xl font-bold flex items-center';
+                    let gradeIcon = '';
+                    
+                    if (reportCard.grade === 'S') {
+                        finalGradeEl.classList.add('text-amber-500');
+                        gradeIcon = 'fa-crown';
+                    } else if (reportCard.grade === 'A') {
+                        finalGradeEl.classList.add('text-green-500');
+                        gradeIcon = 'fa-star';
+                    } else if (reportCard.grade === 'B') {
+                        finalGradeEl.classList.add('text-blue-500');
+                        gradeIcon = 'fa-thumbs-up';
+                    } else if (reportCard.grade === 'C') {
+                        finalGradeEl.classList.add('text-purple-500');
+                        gradeIcon = 'fa-balance-scale';
+                    } else if (reportCard.grade === 'D') {
+                        finalGradeEl.classList.add('text-orange-500');
+                        gradeIcon = 'fa-exclamation-triangle';
+                    } else {
+                        finalGradeEl.classList.add('text-red-500');
+                        gradeIcon = 'fa-bolt';
+                    }
+                    
+                    // 添加图标
+                    finalGradeEl.innerHTML = `
+                        <i class="fa ${gradeIcon} mr-2 animate-pulse"></i>
+                        ${reportCard.grade}
+                    `;
+                }
+                
+                if (moneyScoreEl) moneyScoreEl.textContent = reportCard.moneyScore;
+                if (moraleScoreEl) moraleScoreEl.textContent = reportCard.moraleScore;
+                if (marketScoreEl) marketScoreEl.textContent = reportCard.marketScore;
+                
+                // 更新进度条
+                updateProgressBar('money-progress', reportCard.moneyScore);
+                updateProgressBar('morale-progress', reportCard.moraleScore);
+                updateProgressBar('market-progress', reportCard.marketScore);
+            }
+            
+            // 渲染历史记录图表
+            renderHistoryChart();
+            
+            // 默认显示成绩单标签
+            switchTab('report-card');
+        }
+        
+        // 重新开始游戏
+        restartBtn.addEventListener('click', () => {
+            // 重置游戏状态
+            gameState = {
+                money: 100,
+                morale: 60,
+                market_prospect: 40,
+                story_stage: 1.0,
+                game_over: false,
+                history: []
+            };
+            updateGameStatus();
+            
+            // 清除样式类
+            document.getElementById('ending-title').className = 'text-3xl font-bold mb-6';
+            
+            // 销毁图表
+            if (historyChart) {
+                historyChart.destroy();
+                historyChart = null;
+            }
+            
+            // 切换到开始界面
+            endingScreen.classList.add('hidden');
+            startScreen.classList.remove('hidden');
+        });
+        
+        // 标签切换事件
+        document.getElementById('report-card-tab').addEventListener('click', () => switchTab('report-card'));
+        document.getElementById('history-tab').addEventListener('click', () => switchTab('history'));
+        
+        // 选项点击事件
+        optionA.addEventListener('click', () => handleDecision('A'));
+        optionB.addEventListener('click', () => handleDecision('B'));
+        
+        // 初始化状态显示
+        updateGameStatus();
+    </script>
+</body>
+</html>
